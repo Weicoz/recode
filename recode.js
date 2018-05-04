@@ -6,6 +6,7 @@ var paytime = myDate.getFullYear() + "-" +
     myDate.getHours() + ":" +
     myDate.getMinutes() + ":" +
     myDate.getSeconds();
+
 var money = "";     //金额
 var paytype = "";   //支付来源
 var output = "";    //支出类型
@@ -14,6 +15,8 @@ var scenes = "";    //使用场景
 var location = "";  //位置
 var money_type = "";//收支情况
 var remark = "";    //备注
+
+
 var paytype_data = [
     "微信",
     "支付宝",
@@ -30,6 +33,7 @@ var output_data = [
     "临时",
 ]
 
+//快捷标签内容
 var tags_data = [
     "早餐",
     "午餐",
@@ -37,22 +41,23 @@ var tags_data = [
     "电影",
     "油费",
     "喵",
-    "其他"
+    "其他",
 ]
 
+
 var scenes_data = {
-    "餐饮":["1111","2222"],
-    "数字":[],
-    "固定":[],
-    "购物":[],
-    "临时":[],
+    "餐饮":["餐馆","饮料","小吃","零食","其他"],
+    "数字":["APP","网站","游戏","电影","会员","其他"],
+    "固定":["交通","通讯","油费","其他"],
+    "购物":["网购","服装","电子产品","其他"],
+    "临时":["维修","旅游","流量","医疗","其他"],
 }
 
 function choose_main(data, func) {
     $ui.menu({
         items: data,
         handler: function (data, idx) {
-            console.log(data);
+            console.log(data,idx);
             if (func) {
                 func(data);
             }
@@ -72,41 +77,50 @@ $input.text({
         } else if (!money) {
 
         } else {
-            $ui.menu({
-                items: paytype_data,
-                handler: function (data, idx) {
-                    console.log(data);
-                    $ui.menu({
-                        items: tags_data,
-                        handler: function (data, idx) {
-                            console.log(data);
-                            
-                        }
-                    })
-                }
-            })
-            
-            
-            
-            //
-            // //选择支付方式
-            // choose_main(paytype_data, function (data) {
-            //     //选择支出类型
-            //     choose_main(output_data, function (data) {
-            //         if (data == "快捷标签"){
-            //             choose_main(tags_data,function (data) {
-            //                 choose_tags(data);
-            //             });
-            //         }else{
-            //             output = data;
-            //             choose_scenes(scenes_data[data]);
-            //         }
-            //     });
-            // });
+
         }
 
     }
 })
+
+//选择支付类型
+function choose_paytype(){
+    $ui.menu({
+        items: paytype_data,
+        handler: function (data, idx) {
+            console.log(data,idx);
+            paytype = data;
+            choose_output();
+        }
+    })
+}
+
+
+//选择支出类型
+function choose_output(){
+    $ui.menu({
+        items: output_data,
+        handler: function (data, idx) {
+            console.log(data,idx);
+            output = data;
+            if (output == "快捷标签"){
+                choose_tag(output);
+            }else{
+
+            }
+        }
+    })
+}
+
+function choose_tag(output){
+    $ui.menu({
+        items: tags_data,
+        handler: function (data, idx) {
+            console.log(data,idx);
+
+        }
+    })
+}
 
 function choose_scenes(data){
     choose_main(data,function (data) {
