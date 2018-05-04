@@ -53,66 +53,8 @@ var scenes_data = {
     "临时":["维修","旅游","流量","医疗","其他"],
 }
 
-function choose_main(data, func) {
-    $ui.menu({
-        items: data,
-        handler: function (data, idx) {
-            console.log(data,idx);
-            if (func) {
-                func(data);
-            }
-        }
-    })
-}
 
 
-data.forEach(function(item) {
-    item.page.props = {
-        title: item.name
-    }
-})
-
-// Prepare view
-$ui.render({
-    props: {
-        title: "recode"
-    },
-    views: [{
-        type: "list",
-        props: {
-            id: "main-list"
-        },
-        layout: $layout.fill,
-        events: {
-            didSelect: function(tableView, indexPath) {
-                $ui.push(data[indexPath.row].page)
-            }
-        }
-    }]
-})
-
-// Render
-$("main-list").data = data.map(function(item) {
-    return item.name
-})
-
-
-$input.text({
-    type: $kbType.number,
-    handler: function (text) {
-        //获取价格
-        money = text
-        $ui.toast(money + "元")
-        if (money.substr(0, 1) == "+") {
-
-        } else if (!money) {
-
-        } else {
-            choose_paytype();
-        }
-
-    }
-})
 
 var data = {
     name: "List View",
@@ -239,6 +181,198 @@ var data = {
         }]
     }
 }
+
+
+
+function choose_main(data, func) {
+    $ui.menu({
+        items: data,
+        handler: function (data, idx) {
+            console.log(data,idx);
+            if (func) {
+                func(data);
+            }
+        }
+    })
+}
+
+
+data.forEach(function(item) {
+    item.page.props = {
+        title: item.name
+    }
+})
+
+// Prepare view
+// $ui.render({
+//     props: {
+//         title: "recode"
+//     },
+//     views: [{
+//         type: "list",
+//         props: {
+//             id: "main-list"
+//         },
+//         layout: $layout.fill,
+//         events: {
+//             didSelect: function(tableView, indexPath) {
+//                 $ui.push(data[indexPath.row].page)
+//             }
+//         }
+//     }]
+// })
+
+
+$ui.render({
+    props: {
+        title: "recode"
+    },
+    views: [{
+        views: [{
+            type: "list",
+            props: {
+                grouped: true,
+                rowHeight: 64.0,
+                footer: {
+                    type: "label",
+                    props: {
+                        height: 20,
+                        text: "Write the Code. Change the world.",
+                        textColor: $color("#AAAAAA"),
+                        align: $align.center,
+                        font: $font(12)
+                    }
+                },
+                template: [{
+                    type: "label",
+                    props: {
+                        id: "title",
+                        font: $font(20)
+                    },
+                    layout: function(make) {
+                        make.left.equalTo(15)
+                        make.top.right.inset(8)
+                        make.height.equalTo(24)
+                    }
+                },
+                    {
+                        type: "label",
+                        props: {
+                            id: "content",
+                            textColor: $color("#888888"),
+                            font: $font(15)
+                        },
+                        layout: function(make) {
+                            make.left.right.equalTo($("title"))
+                            make.top.equalTo($("title").bottom)
+                            make.bottom.equalTo(0)
+                        }
+                    }
+                ],
+                data: [{
+                    title: "Languages",
+                    rows: [{
+                        title: {
+                            text: "JavaScript"
+                        },
+                        content: {
+                            text: "a high-level, dynamic, untyped, object-based, multi-paradigm, and interpreted programming language."
+                        },
+                        url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+                    },
+                        {
+                            title: {
+                                text: "Swift"
+                            },
+                            content: {
+                                text: "a general-purpose, multi-paradigm, compiled programming language developed by Apple Inc."
+                            },
+                            url: "https://swift.org"
+                        },
+                        {
+                            title: {
+                                text: "Objective-C"
+                            },
+                            content: {
+                                text: "a general-purpose, object-oriented programming language that adds Smalltalk-style messaging to the C programming language."
+                            },
+                            url: "https://developer.apple.com/documentation/objectivec"
+                        }
+                    ]
+                },
+                    {
+                        title: "Frameworks",
+                        rows: [{
+                            title: {
+                                text: "Vue"
+                            },
+                            content: {
+                                text: "a progressive framework for building user interfaces."
+                            },
+                            url: "https://vuejs.org/"
+                        },
+                            {
+                                title: {
+                                    text: "React"
+                                },
+                                content: {
+                                    text: "a JavaScript library for building user interfaces."
+                                },
+                                url: "https://facebook.github.io/react/"
+                            },
+                            {
+                                title: {
+                                    text: "Angular"
+                                },
+                                content: {
+                                    text: "a development platform for building mobile and desktop web applications using Typescript/JavaScript (JS) and other languages."
+                                },
+                                url: "https://angularjs.org"
+                            }
+                        ]
+                    }
+                ]
+            },
+            layout: $layout.fill,
+            events: {
+                didSelect: function(tableView, indexPath) {
+                    $ui.push({
+                        views: [{
+                            type: "web",
+                            props: {
+                                url: tableView.object(indexPath).url
+                            },
+                            layout: $layout.fill
+                        }]
+                    })
+                }
+            }
+        }]
+    }]
+})
+
+
+// Render
+//$("main-list").data = data.props;
+
+
+$input.text({
+    type: $kbType.number,
+    handler: function (text) {
+        //获取价格
+        money = text
+        $ui.toast(money + "元")
+        if (money.substr(0, 1) == "+") {
+
+        } else if (!money) {
+
+        } else {
+            choose_paytype();
+        }
+
+    }
+})
+
 
 
 
