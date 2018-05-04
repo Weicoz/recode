@@ -77,7 +77,7 @@ $input.text({
         } else if (!money) {
 
         } else {
-
+            choose_paytype();
         }
 
     }
