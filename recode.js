@@ -231,44 +231,6 @@ $ui.render({
         views: [{
             type: "list",
             props: {
-                grouped: true,
-                rowHeight: 64.0,
-                footer: {
-                    type: "label",
-                    props: {
-                        height: 20,
-                        text: "Write the Code. Change the world.",
-                        textColor: $color("#AAAAAA"),
-                        align: $align.center,
-                        font: $font(12)
-                    }
-                },
-                template: [{
-                    type: "label",
-                    props: {
-                        id: "title",
-                        font: $font(20)
-                    },
-                    layout: function(make) {
-                        make.left.equalTo(15)
-                        make.top.right.inset(8)
-                        make.height.equalTo(24)
-                    }
-                },
-                    {
-                        type: "label",
-                        props: {
-                            id: "content",
-                            textColor: $color("#888888"),
-                            font: $font(15)
-                        },
-                        layout: function(make) {
-                            make.left.right.equalTo($("title"))
-                            make.top.equalTo($("title").bottom)
-                            make.bottom.equalTo(0)
-                        }
-                    }
-                ],
                 data: [{
                     title: "Languages",
                     rows: [{
