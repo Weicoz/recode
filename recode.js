@@ -235,8 +235,8 @@ function input_money() {
             },
             layout: function (make, view) {
                     make.top.equalTo(5)
-                    make.left.equalTo("50%")
-                    make.size.equalTo($size("20%", 40))
+                    make.left.equalTo(view.super)
+                    make.size.equalTo($size(200, 40))
                 },
             events: {
                 returned: function(sender) {
