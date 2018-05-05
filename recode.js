@@ -230,7 +230,7 @@ function input_money(){
                 title: "请输入金额"
             },
             layout: function(make, view) {
-                make.center.equalTo(view.super)
+                make.left.right.equalTo(20)
                 make.top.equalTo(0)
                 make.size.equalTo($size(250, 35))
             }
@@ -247,7 +247,6 @@ function input_money(){
                 align: $align.center
             },
             layout: function(make, view) {
-                make.center.equalTo(view.super)
                 make.size.equalTo($size(100, 40))
             },
             events: {
