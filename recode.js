@@ -276,3 +276,6 @@ function input_pro_name(){
         }
     })
 }
+
+
+input_money()
