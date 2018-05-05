@@ -244,7 +244,7 @@ function input_money() {
             props: {
                 interval: 5,
                 mode: "dateAndTime"
-            }
+            },
             layout: function (make) {
                 make.left.right.equalTo(0)
                 make.top.equalTo(40)
