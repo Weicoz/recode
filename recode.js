@@ -247,7 +247,11 @@ function input_money(){
                 title: "确定",
                 align: $align.center
             },
-            layout: $layout.fill,
+            layout: function(make) {
+                make.left.right.equalTo(100)
+                make.top.equalTo(200)
+                make.height.equalTo(40)
+            },
             events: {
                 tapped: function(sender) {
                     choose_paytype()
