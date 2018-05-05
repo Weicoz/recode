@@ -248,11 +248,14 @@ function input_money() {
             layout: function (make) {
                 make.left.right.equalTo(0)
                 make.top.equalTo(40)
-                make.height.equalTo(150)
+                make.height.equalTo(200)
             },
             events: {
                 changed: function(sender) {
-                    console.log(sender)
+                    var myDate = new Date(sender.date)
+
+                    console.log(sender.date)
+                    console.log(myDate.getDate())
                 }
             }
         }, {
@@ -263,8 +266,8 @@ function input_money() {
             },
             layout: function(make) {
                 make.centerX.equalTo()
-                make.top.equalTo(200)
-                make.size.equalTo($size(150,40))
+                make.top.equalTo(250)
+                make.size.equalTo($size(120,40))
             },
             events: {
                 tapped: function(sender) {
