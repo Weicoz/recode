@@ -244,11 +244,11 @@ function input_money(){
             props: {
                 title: "确定",
                 align: $align.center
-            }
+            },
             layout: function(make, view) {
                 make.center.equalTo(view.super)
                 make.size.equalTo($size(100, 40))
-            }
+            },
             events: {
                 tapped: function(sender) {
                     choose_paytype()
