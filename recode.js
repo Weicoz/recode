@@ -234,11 +234,10 @@ function input_money() {
                 placeholder:"请输入金额",
             },
             layout: function (make, view) {
-                    console(view.width)
-                    console(view.height)
                     make.top.equalTo(5)
-                    make.left.equalTo(view.super)
-                    make.size.equalTo($size(200, 40))
+                    make.left.inset(10)
+                    make.height.equalTo(40)
+                    make.right.inset(130)
                 },
             events: {
                 returned: function(sender) {
@@ -271,8 +270,8 @@ function input_money() {
                 align: $align.center
             },
             layout: function(make) {
-                make.centerX.equalTo()
-                make.top.equalTo(250)
+                make.right.inset(10)
+                make.top.equalTo(5)
                 make.size.equalTo($size(120,40))
             },
             events: {
