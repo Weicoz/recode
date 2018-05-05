@@ -107,28 +107,32 @@ var tags_detail = {
 //         }
 //     }]
 // })
-$ui.render({
-    props: {
-        title: "请选择支付方式"
-    },
-    views: [{
-        type: "list",
+
+function choose_paytype(){
+    $ui.push({
         props: {
-            data: [{
-                //title: "请选择支付方式",
-                rows: paytype_data
-            }]
+            title: "请选择支付方式"
         },
-        layout: $layout.fill,
-        events: {
-            didSelect: function(tableView, indexPath, title) {
-                console.log(title)
-                paytype = title
-                choose_output()
+        views: [{
+            type: "list",
+            props: {
+                data: [{
+                    //title: "请选择支付方式",
+                    rows: paytype_data
+                }]
+            },
+            layout: $layout.fill,
+            events: {
+                didSelect: function(tableView, indexPath, title) {
+                    console.log(title)
+                    paytype = title
+                    choose_output()
+                }
             }
-        }
-    }]
-})
+        }]
+    })
+}
+
 
 function choose_output() {
     $ui.push({
@@ -147,7 +151,8 @@ function choose_output() {
             events: {
                 didSelect: function(tableView, indexPath, title) {
                     output = title
-                    console.log(title)
+                    console.log("output:"+output);
+                    $ui.toast(output)
                     if (title == "快捷标签") {
                         choose_tags()
                     } else {
@@ -175,13 +180,11 @@ function choose_tags() {
             layout: $layout.fill,
             events: {
                 didSelect: function(tableView, indexPath, title) {
-                    console.log(title)
-                    outout = tags_detail[title].output
-                    scenes = tags_detail[title].scenes
+                    console.log("tags:" + title)
                     pro_name = tags_detail[title].name
-                    console.log(outout)
-                    console.log(scenes)
-                    console.log(pro_name)
+                    output = tags_detail[title].output
+                    scenes = tags_detail[title].scenes
+                    $ui.toast(pro_name + "/" + output + "/" + scenes)
                 }
             }
         }]
@@ -204,10 +207,70 @@ function choose_scenes() {
             layout: $layout.fill,
             events: {
                 didSelect: function(tableView, indexPath, title) {
-                    console.log(title)
                     scenes = title
+                    console.log("scenes:" + scenes)
+                    $ui.toast(scenes)
+                    input_pro_name()
                 }
             }
         }]
+    })
+}
+
+function input_money(){
+    $ui.render({
+        props: {
+            title: "请输入金额"
+        },
+        views: [{
+            type: "input",
+            props: {
+                type: $kbType.number,
+                darkKeyboard: true,
+            },
+            layout: function(make, view) {
+                make.center.equalTo(view.super)
+                make.size.equalTo($size(100, 32))
+            }
+        },{
+            type: "date-picker",
+            layout: function(make) {
+                make.left.top.right.equalTo(0)
+            }
+        },{
+            type: "button",
+            props: {
+                title: "确定",
+                align: $align.center
+            }
+            layout: function(make, view) {
+                make.center.equalTo(view.super)
+                make.size.equalTo($size(250, 80))
+            }
+            events: {
+                tapped: function(sender) {
+                    choose_paytype()
+                }
+            }
+        }]
+    })
+}
+
+
+function input_pro_name(){
+    $input.text({
+        type: $kbType.number,
+        handler: function (text) {
+            //获取价格
+            money = text
+            $ui.toast(money + "元")
+            if (money.substr(0, 1) == "+") {
+
+            } else if (!money) {
+
+            } else {
+
+            }
+        }
     })
 }
