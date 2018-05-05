@@ -226,20 +226,34 @@ function input_money() {
             props: {
                 type: $kbType.number,
                 darkKeyboard: true,
-                title: "请输入金额"
+                title: "请输入金额",
+                placeholder:"请输入金额",
             },
-            layout:
-                function(make, view) {
+            layout: function (make, view) {
                     make.top.equalTo(5)
                     make.centerX.equalTo()
-                    make.size.equalTo($size(200,40))
+                    make.size.equalTo($size(200, 40))
+                },
+            events: {
+                returned: function(sender) {
+                    choose_paytype()
                 }
+            }
         }, {
             type: "date-picker",
-            layout: function(make) {
+            props: {
+                interval: 5,
+                mode: "dateAndTime"
+            }
+            layout: function (make) {
                 make.left.right.equalTo(0)
                 make.top.equalTo(40)
                 make.height.equalTo(150)
+            },
+            events: {
+                changed: function(sender) {
+                    console.log(sender)
+                }
             }
         }, {
             type: "button",
@@ -248,10 +262,9 @@ function input_money() {
                 align: $align.center
             },
             layout: function(make) {
-                make.left.right.equalTo(100)
+                make.centerX.equalTo()
                 make.top.equalTo(200)
-                make.height.equalTo(40)
-                make.width.equalTo(150)
+                make.size.equalTo($size(150,40))
             },
             events: {
                 tapped: function(sender) {
