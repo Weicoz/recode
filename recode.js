@@ -243,7 +243,7 @@ function input_money() {
             type: "date-picker",
             props: {
                 interval: 5,
-                mode: "dateAndTime"
+                //mode: "dateAndTime"
             },
             layout: function (make) {
                 make.left.right.equalTo(0)
