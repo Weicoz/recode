@@ -239,6 +239,7 @@ function input_money(){
             layout: function(make) {
                 make.left.right.equalTo(0)
                 make.top.equalTo(40)
+                make.height.equalTo(100)
             }
         },{
             type: "button",
@@ -246,9 +247,7 @@ function input_money(){
                 title: "确定",
                 align: $align.center
             },
-            layout: function(make, view) {
-                make.size.equalTo($size(100, 40))
-            },
+            layout: $layout.fill,
             events: {
                 tapped: function(sender) {
                     choose_paytype()
