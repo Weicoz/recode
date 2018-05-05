@@ -241,6 +241,7 @@ function input_money() {
                 },
             events: {
                 returned: function(sender) {
+                    console.log("data:" + sender.data);
                     choose_paytype()
                 }
             }
@@ -257,10 +258,8 @@ function input_money() {
             },
             events: {
                 changed: function(sender) {
-                    var myDate = new Date(sender.date)
-
-                    console.log(sender.date)
-                    console.log(myDate.getDate())
+                    paytime = daytime(sender.date)
+                    console.log("paytime:" + paytime)
                 }
             }
         }, {
