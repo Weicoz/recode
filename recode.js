@@ -7,15 +7,14 @@ var paytime = myDate.getFullYear() + "-" +
     myDate.getMinutes() + ":" +
     myDate.getSeconds();
 
-var money = "";     //金额
-var paytype = "";   //支付来源
-var output = "";    //支出类型
-var pro_name = "";  //商品名称
-var scenes = "";    //使用场景
-var location = "";  //位置
-var money_type = "";//收支情况
-var remark = "";    //备注
-
+var money = ""; //金额
+var paytype = ""; //支付来源
+var output = ""; //支出类型
+var pro_name = ""; //商品名称
+var scenes = ""; //使用场景
+var location = ""; //位置
+var money_type = ""; //收支情况
+var remark = ""; //备注
 
 var paytype_data = [
     "微信",
@@ -44,164 +43,51 @@ var tags_data = [
     "其他",
 ]
 
-
 var scenes_data = {
-    "餐饮":["餐馆","饮料","小吃","零食","其他"],
-    "数字":["APP","网站","游戏","电影","会员","其他"],
-    "固定":["交通","通讯","油费","其他"],
-    "购物":["网购","服装","电子产品","其他"],
-    "临时":["维修","旅游","流量","医疗","其他"],
+    "餐饮": ["餐馆", "饮料", "小吃", "零食", "其他"],
+    "数字": ["APP", "网站", "游戏", "电影", "会员", "其他"],
+    "固定": ["交通", "通讯", "油费", "其他"],
+    "购物": ["网购", "服装", "电子产品", "其他"],
+    "临时": ["维修", "旅游", "流量", "医疗", "其他"],
 }
 
-
-
-
-var data = {
-    name: "List View",
-    page: {
-        views: [{
-            type: "list",
-            props: {
-                grouped: true,
-                rowHeight: 64.0,
-                footer: {
-                    type: "label",
-                    props: {
-                        height: 20,
-                        text: "Write the Code. Change the world.",
-                        textColor: $color("#AAAAAA"),
-                        align: $align.center,
-                        font: $font(12)
-                    }
-                },
-                template: [{
-                    type: "label",
-                    props: {
-                        id: "title",
-                        font: $font(20)
-                    },
-                    layout: function(make) {
-                        make.left.equalTo(15)
-                        make.top.right.inset(8)
-                        make.height.equalTo(24)
-                    }
-                },
-                    {
-                        type: "label",
-                        props: {
-                            id: "content",
-                            textColor: $color("#888888"),
-                            font: $font(15)
-                        },
-                        layout: function(make) {
-                            make.left.right.equalTo($("title"))
-                            make.top.equalTo($("title").bottom)
-                            make.bottom.equalTo(0)
-                        }
-                    }
-                ],
-                data: [{
-                    title: "Languages",
-                    rows: [{
-                        title: {
-                            text: "JavaScript"
-                        },
-                        content: {
-                            text: "a high-level, dynamic, untyped, object-based, multi-paradigm, and interpreted programming language."
-                        },
-                        url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
-                    },
-                        {
-                            title: {
-                                text: "Swift"
-                            },
-                            content: {
-                                text: "a general-purpose, multi-paradigm, compiled programming language developed by Apple Inc."
-                            },
-                            url: "https://swift.org"
-                        },
-                        {
-                            title: {
-                                text: "Objective-C"
-                            },
-                            content: {
-                                text: "a general-purpose, object-oriented programming language that adds Smalltalk-style messaging to the C programming language."
-                            },
-                            url: "https://developer.apple.com/documentation/objectivec"
-                        }
-                    ]
-                },
-                    {
-                        title: "Frameworks",
-                        rows: [{
-                            title: {
-                                text: "Vue"
-                            },
-                            content: {
-                                text: "a progressive framework for building user interfaces."
-                            },
-                            url: "https://vuejs.org/"
-                        },
-                            {
-                                title: {
-                                    text: "React"
-                                },
-                                content: {
-                                    text: "a JavaScript library for building user interfaces."
-                                },
-                                url: "https://facebook.github.io/react/"
-                            },
-                            {
-                                title: {
-                                    text: "Angular"
-                                },
-                                content: {
-                                    text: "a development platform for building mobile and desktop web applications using Typescript/JavaScript (JS) and other languages."
-                                },
-                                url: "https://angularjs.org"
-                            }
-                        ]
-                    }
-                ]
-            },
-            layout: $layout.fill,
-            events: {
-                didSelect: function(tableView, indexPath) {
-                    $ui.push({
-                        views: [{
-                            type: "web",
-                            props: {
-                                url: tableView.object(indexPath).url
-                            },
-                            layout: $layout.fill
-                        }]
-                    })
-                }
-            }
-        }]
+var tags_detail = {
+    "早餐": {
+        "name": "早餐",
+        "output": "餐饮",
+        "scenes": "餐馆"
+    },
+    "午餐": {
+        "name": "午餐",
+        "output": "餐饮",
+        "scenes": "餐馆"
+    },
+    "晚餐": {
+        "name": "晚餐",
+        "output": "餐饮",
+        "scenes": "餐馆"
+    },
+    "电影": {
+        "name": "电影",
+        "output": "数字",
+        "scenes": "电影"
+    },
+    "油费": {
+        "name": "油费",
+        "output": "固定",
+        "scenes": "交通"
+    },
+    "喵": {
+        "name": "喵",
+        "output": "临时",
+        "scenes": "其他"
+    },
+    "其他": {
+        "name": "",
+        "output": "临时",
+        "scenes": "其他"
     }
 }
-
-
-
-function choose_main(data, func) {
-    $ui.menu({
-        items: data,
-        handler: function (data, idx) {
-            console.log(data,idx);
-            if (func) {
-                func(data);
-            }
-        }
-    })
-}
-
-
-data.forEach(function(item) {
-    item.page.props = {
-        title: item.name
-    }
-})
 
 // Prepare view
 // $ui.render({
@@ -221,200 +107,107 @@ data.forEach(function(item) {
 //         }
 //     }]
 // })
-
-
 $ui.render({
     props: {
-        title: "recode"
+        title: "请选择支付方式"
     },
     views: [{
+        type: "list",
+        props: {
+            data: [{
+                //title: "请选择支付方式",
+                rows: paytype_data
+            }]
+        },
+        layout: $layout.fill,
+        events: {
+            didSelect: function(tableView, indexPath, title) {
+                console.log(title)
+                paytype = title
+                choose_output()
+            }
+        }
+    }]
+})
+
+function choose_output() {
+    $ui.push({
+        props: {
+            title: "请选择消费类型"
+        },
         views: [{
             type: "list",
             props: {
                 data: [{
-                    title: "Languages",
-                    rows: [{
-                        title: {
-                            text: "JavaScript"
-                        },
-                        content: {
-                            text: "a high-level, dynamic, untyped, object-based, multi-paradigm, and interpreted programming language."
-                        },
-                        url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
-                    },
-                        {
-                            title: {
-                                text: "Swift"
-                            },
-                            content: {
-                                text: "a general-purpose, multi-paradigm, compiled programming language developed by Apple Inc."
-                            },
-                            url: "https://swift.org"
-                        },
-                        {
-                            title: {
-                                text: "Objective-C"
-                            },
-                            content: {
-                                text: "a general-purpose, object-oriented programming language that adds Smalltalk-style messaging to the C programming language."
-                            },
-                            url: "https://developer.apple.com/documentation/objectivec"
-                        }
-                    ]
-                },
-                    {
-                        title: "Frameworks",
-                        rows: [{
-                            title: {
-                                text: "Vue"
-                            },
-                            content: {
-                                text: "a progressive framework for building user interfaces."
-                            },
-                            url: "https://vuejs.org/"
-                        },
-                            {
-                                title: {
-                                    text: "React"
-                                },
-                                content: {
-                                    text: "a JavaScript library for building user interfaces."
-                                },
-                                url: "https://facebook.github.io/react/"
-                            },
-                            {
-                                title: {
-                                    text: "Angular"
-                                },
-                                content: {
-                                    text: "a development platform for building mobile and desktop web applications using Typescript/JavaScript (JS) and other languages."
-                                },
-                                url: "https://angularjs.org"
-                            }
-                        ]
-                    }
-                ]
+                    //title: "请选择消费类型",
+                    rows: output_data
+                }, ]
             },
             layout: $layout.fill,
             events: {
-                didSelect: function(tableView, indexPath) {
-                    $ui.push({
-                        views: [{
-                            type: "web",
-                            props: {
-                                url: tableView.object(indexPath).url
-                            },
-                            layout: $layout.fill
-                        }]
-                    })
+                didSelect: function(tableView, indexPath, title) {
+                    output = title
+                    console.log(title)
+                    if (title == "快捷标签") {
+                        choose_tags()
+                    } else {
+                        choose_scenes()
+                    }
                 }
             }
         }]
-    }]
-})
-
-
-// Render
-//$("main-list").data = data.props;
-
-
-$input.text({
-    type: $kbType.number,
-    handler: function (text) {
-        //获取价格
-        money = text
-        $ui.toast(money + "元")
-        if (money.substr(0, 1) == "+") {
-
-        } else if (!money) {
-
-        } else {
-            choose_paytype();
-        }
-
-    }
-})
-
-
-
-
-//选择支付类型
-function choose_paytype(){
-    $ui.menu({
-        items: paytype_data,
-        handler: function (data, idx) {
-            console.log(data,idx);
-            paytype = data;
-            choose_output();
-        }
     })
 }
 
-
-//选择支出类型
-function choose_output(){
-    $ui.menu({
-        items: output_data,
-        handler: function (data, idx) {
-            console.log(data,idx);
-            output = data;
-            if (output == "快捷标签"){
-                choose_tag(output);
-            }else{
-
+function choose_tags() {
+    $ui.push({
+        props: {
+            title: "请选择标签"
+        },
+        views: [{
+            type: "list",
+            props: {
+                data: [{
+                    //title: "请选择标签",
+                    rows: tags_data
+                }, ]
+            },
+            layout: $layout.fill,
+            events: {
+                didSelect: function(tableView, indexPath, title) {
+                    console.log(title)
+                    outout = tags_detail[title].output
+                    scenes = tags_detail[title].scenes
+                    pro_name = tags_detail[title].name
+                    console.log(outout)
+                    console.log(scenes)
+                    console.log(pro_name)
+                }
             }
-        }
+        }]
     })
 }
 
-function choose_tag(output){
-    $ui.menu({
-        items: tags_data,
-        handler: function (data, idx) {
-            console.log(data,idx);
-
-        }
+function choose_scenes() {
+    $ui.push({
+        props: {
+            title: "请选择场景"
+        },
+        views: [{
+            type: "list",
+            props: {
+                data: [{
+                    //title: "请选择场景",
+                    rows: scenes_data[output]
+                }, ]
+            },
+            layout: $layout.fill,
+            events: {
+                didSelect: function(tableView, indexPath, title) {
+                    console.log(title)
+                    scenes = title
+                }
+            }
+        }]
     })
 }
-
-function choose_scenes(data){
-    choose_main(data,function (data) {
-        $ui.alert(data);
-        choose_main(scenes_data[data],function () {
-            $ui.alert(data);
-        });
-    });
-}
-
-function choose_tags(data) {
-    switch (data){
-        case "早餐":
-            break;
-        case "午餐":
-            break;
-        case "晚餐":
-            break;
-        case "电影":
-            break;
-        case "油费":
-            break;
-        case "喵":
-            break;
-        case "其他":
-            break;
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
