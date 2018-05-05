@@ -235,7 +235,7 @@ function input_money() {
             },
             layout: function (make, view) {
                     make.top.equalTo(5)
-                    make.left.inset(10)
+                    make.left.inset(20)
                     make.height.equalTo(40)
                     make.right.inset(130)
                 },
@@ -270,9 +270,9 @@ function input_money() {
                 align: $align.center
             },
             layout: function(make) {
-                make.right.inset(10)
+                make.right.inset(20)
                 make.top.equalTo(5)
-                make.size.equalTo($size(120,40))
+                make.size.equalTo($size(90,40))
             },
             events: {
                 tapped: function(sender) {
