@@ -231,7 +231,8 @@ function input_money(){
             },
             layout: function(make, view) {
                 make.center.equalTo(view.super)
-                make.size.equalTo($size(200, 32))
+                make.top.equalTo(0)
+                make.size.equalTo($size(250, 35))
             }
         },{
             type: "date-picker",
