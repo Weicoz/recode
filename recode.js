@@ -1,12 +1,4 @@
-var myDate = new Date()
-//支付时间
-var paytime = myDate.getFullYear() + "-" +
-    (myDate.getMonth() + 1) + "-" +
-    myDate.getDate() + " " +
-    myDate.getHours() + ":" +
-    myDate.getMinutes() + ":" +
-    myDate.getSeconds();
-
+var paytime = daytime();    //支付时间
 var money = ""; //金额
 var paytype = ""; //支付来源
 var output = ""; //支出类型
@@ -108,6 +100,18 @@ var tags_detail = {
 //     }]
 // })
 
+function daytime(time) {
+    var myDate = new Date()
+    var settime = myDate.getFullYear() + "-" +
+        (myDate.getMonth() + 1) + "-" +
+        myDate.getDate() + " " +
+        myDate.getHours() + ":" +
+        myDate.getMinutes() + ":" +
+        myDate.getSeconds();
+    return settime
+}
+
+
 function choose_paytype() {
     $ui.push({
         props: {
@@ -123,7 +127,7 @@ function choose_paytype() {
             },
             layout: $layout.fill,
             events: {
-                didSelect: function(tableView, indexPath, title) {
+                didSelect: function (tableView, indexPath, title) {
                     console.log(title)
                     paytype = title
                     choose_output()
@@ -144,11 +148,11 @@ function choose_output() {
                 data: [{
                     //title: "请选择消费类型",
                     rows: output_data
-                }, ]
+                },]
             },
             layout: $layout.fill,
             events: {
-                didSelect: function(tableView, indexPath, title) {
+                didSelect: function (tableView, indexPath, title) {
                     output = title
                     console.log("output:" + output);
                     $ui.toast(output)
@@ -174,11 +178,11 @@ function choose_tags() {
                 data: [{
                     //title: "请选择标签",
                     rows: tags_data
-                }, ]
+                },]
             },
             layout: $layout.fill,
             events: {
-                didSelect: function(tableView, indexPath, title) {
+                didSelect: function (tableView, indexPath, title) {
                     console.log("tags:" + title)
                     pro_name = tags_detail[title].name
                     output = tags_detail[title].output
@@ -201,11 +205,11 @@ function choose_scenes() {
                 data: [{
                     //title: "请选择场景",
                     rows: scenes_data[output]
-                }, ]
+                },]
             },
             layout: $layout.fill,
             events: {
-                didSelect: function(tableView, indexPath, title) {
+                didSelect: function (tableView, indexPath, title) {
                     scenes = title
                     console.log("scenes:" + scenes)
                     $ui.toast(scenes)
@@ -221,67 +225,54 @@ function input_money() {
         props: {
             title: "请输入金额"
         },
-        views: [{
-            type: "input",
-            props: {
-                type: $kbType.number,
-                darkKeyboard: true,
-                title: "请输入金额",
-                placeholder:"请输入金额",
-            },
-            layout: function (make, view) {
+        views: {
+            views: {
+                type: "input",
+                props: {
+                    type: $kbType.number,
+                    darkKeyboard: true,
+                    title: "请输入金额",
+                    placeholder: "请输入金额",
+                },
+                layout: function (make, view) {
                     make.top.equalTo(5)
                     make.centerX.equalTo()
                     make.size.equalTo($size(200, 40))
                 },
-            events: {
-                returned: function(sender) {
-                    choose_paytype()
+                events: {
+                    returned: function (sender) {
+                        choose_paytype()
+                    }
                 }
-            }
-        }, {
-            type: "date-picker",
-            props: {
-                interval: 5,
-                //mode: "dateAndTime"
             },
-            layout: function (make) {
-                make.left.right.equalTo(0)
-                make.top.equalTo(40)
-                make.height.equalTo(200)
-            },
-            events: {
-                changed: function(sender) {
-                    var myDate = new Date(sender.date)
-
-                    console.log(sender.date)
-                    console.log(myDate.getDate())
+            views: {
+                type: "button",
+                props: {
+                    title: "确定",
+                    align:
+                    $align.center
+                },
+                layout: function (make) {
+                    make.centerX.equalTo()
+                    make.top.equalTo(5)
+                    make.size.equalTo($size(120, 40))
                 }
-            }
-        }, {
-            type: "button",
-            props: {
-                title: "确定",
-                align: $align.center
-            },
-            layout: function(make) {
-                make.centerX.equalTo()
-                make.top.equalTo(250)
-                make.size.equalTo($size(120,40))
-            },
-            events: {
-                tapped: function(sender) {
-                    choose_paytype()
+                ,
+                events: {
+                    tapped: function (sender) {
+                        choose_paytype()
+                    }
                 }
-            }
-        }]
+            },
+        }
     })
 }
+
 
 function input_pro_name() {
     $input.text({
         type: $kbType.number,
-        handler: function(text) {
+        handler: function (text) {
             //获取价格
             money = text
             $ui.toast(money + "元")
