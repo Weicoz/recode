@@ -108,7 +108,7 @@ var tags_detail = {
 //     }]
 // })
 
-function choose_paytype(){
+function choose_paytype() {
     $ui.push({
         props: {
             title: "请选择支付方式"
@@ -133,7 +133,6 @@ function choose_paytype(){
     })
 }
 
-
 function choose_output() {
     $ui.push({
         props: {
@@ -151,7 +150,7 @@ function choose_output() {
             events: {
                 didSelect: function(tableView, indexPath, title) {
                     output = title
-                    console.log("output:"+output);
+                    console.log("output:" + output);
                     $ui.toast(output)
                     if (title == "快捷标签") {
                         choose_tags()
@@ -217,7 +216,7 @@ function choose_scenes() {
     })
 }
 
-function input_money(){
+function input_money() {
     $ui.render({
         props: {
             title: "请输入金额"
@@ -229,19 +228,20 @@ function input_money(){
                 darkKeyboard: true,
                 title: "请输入金额"
             },
-            layout: function(make, view) {
-                make.left.right.equalTo(20)
-                make.top.equalTo(0)
-                make.size.equalTo($size(250, 35))
-            }
-        },{
+            layout:
+                function(make, view) {
+                    make.top.equalTo(5)
+                    make.centerX.equalTo()
+                    make.size.equalTo($size(200,40))
+                }
+        }, {
             type: "date-picker",
             layout: function(make) {
                 make.left.right.equalTo(0)
                 make.top.equalTo(40)
-                make.height.equalTo(100)
+                make.height.equalTo(150)
             }
-        },{
+        }, {
             type: "button",
             props: {
                 title: "确定",
@@ -251,6 +251,7 @@ function input_money(){
                 make.left.right.equalTo(100)
                 make.top.equalTo(200)
                 make.height.equalTo(40)
+                make.width.equalTo(150)
             },
             events: {
                 tapped: function(sender) {
@@ -261,11 +262,10 @@ function input_money(){
     })
 }
 
-
-function input_pro_name(){
+function input_pro_name() {
     $input.text({
         type: $kbType.number,
-        handler: function (text) {
+        handler: function(text) {
             //获取价格
             money = text
             $ui.toast(money + "元")
@@ -279,6 +279,5 @@ function input_pro_name(){
         }
     })
 }
-
 
 input_money()
