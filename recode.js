@@ -234,6 +234,8 @@ function input_money() {
                 placeholder:"请输入金额",
             },
             layout: function (make, view) {
+                    console(view.width)
+                    console(view.height)
                     make.top.equalTo(5)
                     make.left.equalTo(view.super)
                     make.size.equalTo($size(200, 40))
