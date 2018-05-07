@@ -1,4 +1,5 @@
-var paytime = daytime();    //支付时间
+var apikey = "keyQOnwsBBHWv2GrW"
+var paytime = daytime(); //支付时间
 var money = ""; //金额
 var paytype = ""; //支付来源
 var output = ""; //支出类型
@@ -81,26 +82,8 @@ var tags_detail = {
     }
 }
 
-// Prepare view
-// $ui.render({
-//     props: {
-//         title: "recode"
-//     },
-//     views: [{
-//         type: "list",
-//         props: {
-//             id: "main-list"
-//         },
-//         layout: $layout.fill,
-//         events: {
-//             didSelect: function(tableView, indexPath) {
-//                 $ui.push(data[indexPath.row].page)
-//             }
-//         }
-//     }]
-// })
 
-function daytime(time){
+function daytime(time) {
     var myDate = new Date()
     var settime = myDate.getFullYear() + "-" +
         (myDate.getMonth() + 1) + "-" +
@@ -110,7 +93,6 @@ function daytime(time){
         myDate.getSeconds();
     return settime
 }
-
 
 function choose_paytype() {
     $ui.push({
@@ -130,6 +112,7 @@ function choose_paytype() {
                 didSelect: function(tableView, indexPath, title) {
                     console.log(title)
                     paytype = title
+                    $ui.toast(paytype)
                     choose_output()
                 }
             }
@@ -188,6 +171,7 @@ function choose_tags() {
                     output = tags_detail[title].output
                     scenes = tags_detail[title].scenes
                     $ui.toast(pro_name + "/" + output + "/" + scenes)
+                    postdata()
                 }
             }
         }]
@@ -231,18 +215,24 @@ function input_money() {
                 type: $kbType.number,
                 darkKeyboard: true,
                 title: "请输入金额",
-                placeholder:"请输入金额",
+                placeholder: "请输入金额",
             },
-            layout: function (make, view) {
-                    make.top.equalTo(5)
-                    make.left.inset(20)
-                    make.height.equalTo(40)
-                    make.right.inset(130)
-                },
+            layout: function(make, view) {
+                make.top.equalTo(5)
+                make.left.inset(20)
+                make.height.equalTo(40)
+                make.right.inset(130)
+            },
             events: {
                 returned: function(sender) {
-                    console.log("data:" + sender.data);
+                    console.log("data:" + sender)
+                    money = sender.text
+                    $ui.toast(money + "元")
                     choose_paytype()
+                },
+                changed: function(sender) {
+                    money = sender.text
+                    console.log("money" + money)
                 }
             }
         }, {
@@ -251,7 +241,7 @@ function input_money() {
                 interval: 5,
                 //mode: "dateAndTime"
             },
-            layout: function (make) {
+            layout: function(make) {
                 make.left.right.equalTo(0)
                 make.top.equalTo(40)
                 make.height.equalTo(200)
@@ -271,10 +261,11 @@ function input_money() {
             layout: function(make) {
                 make.right.inset(20)
                 make.top.equalTo(5)
-                make.size.equalTo($size(90,40))
+                make.size.equalTo($size(90, 40))
             },
             events: {
-                tapped: function(sender) {
+                tapped: function(sender, view) {
+                    $ui.toast(money + "元")
                     choose_paytype()
                 }
             }
@@ -284,18 +275,103 @@ function input_money() {
 
 function input_pro_name() {
     $input.text({
-        type: $kbType.number,
+        type: $kbType.search,
         handler: function(text) {
-            //获取价格
-            money = text
-            $ui.toast(money + "元")
-            if (money.substr(0, 1) == "+") {
+            //获取商品
+            pro_name = text
+            $ui.toast(text)
+            postdata()
+        }
+    })
+}
 
-            } else if (!money) {
+function get_localtion() {
+    $location.fetch({
+        handler: function(resp) {
+            var lat = resp.lat
+            var lng = resp.lat
+            var alt = resp.alt
+            localtion = alt
+            console.log(location)}
+    })
+}
 
-            } else {
-
+function updataing() {
+    $ui.push({
+        props: {
+            title: "提交中",
+            id: "success_page"
+        },
+        views: [{
+            type: "label",
+            props: {
+                text: "Hello, World!",
+                align: $align.center
+            },
+            layout: function(make, view) {
+                make.center.equalTo(view.super)
             }
+
+        }]
+    })
+}
+
+
+
+
+function success() {
+    $ui.push({
+        props: {
+            title: "提交中",
+            id: "success_page"
+        },
+        views: [{
+            type: "label",
+            props: {
+                text: "提交中...",
+                align: $align.center
+            },
+            layout: function(make, view) {
+                make.center.equalTo(view.super)
+            }
+
+        }]
+    })
+    $delay(3, function() {
+        $("success_page").views.props["text"] = "完成提交";
+        $("success_page").props["title"] = "完成提交";
+    })
+}
+
+
+function postdata() {
+    success()
+    get_localtion()
+    $http.request({
+        showsProgress: true,
+
+        method: "POST",
+        url: "https://api.airtable.com/v0/appp4IH0Oi4b6QI3q/Table1",
+        header: {
+            Authorization: "Bearer keyQOnwsBBHWv2GrW",
+        },
+        body: {
+            fields: {
+                付款时间: paytime,
+                来源: paytype,
+                商品名称: pro_name,
+                类型: output,
+                情景: scenes,
+                金额: parseInt("-" + money),
+                位置: location,
+                收支情况: "支出",
+            }
+
+        },
+        handler: function(resp) {
+            var data = resp.data
+            console.log(data)
+            $app.close()
         }
     })
 }
